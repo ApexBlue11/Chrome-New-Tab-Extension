@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Modern Video Tab",
+  "version": "1.0",
+  "description": "A sleek new tab with random video backgrounds and a modern clock.",
+  "icons": {
+    "128": "icon.jpg"
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["Wallpapers/*.mp4", "fonts/*.otf", "holo-prototype/*.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holo Building Library</title>
+    <style>
+        :root {
+            --cyan: #7efcff;
+            --cyan-soft: rgba(126, 252, 255, 0.16);
+            --cyan-mid: rgba(126, 252, 255, 0.34);
+            --cyan-strong: rgba(126, 252, 255, 0.92);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 50% 40%, rgba(126, 252, 255, 0.08), transparent 18%),
+                radial-gradient(circle at 50% 58%, rgba(126, 252, 255, 0.03), transparent 28%),
+                #000;
+        }
+
+        body {
+            position: relative;
+            font-family: monospace;
+            color: var(--cyan);
+        }
+
+        #scene {
+            position: absolute;
+            inset: 0;
+        }
+
+        #holo-svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            shape-rendering: geometricPrecision;
+        }
+
+        .line-art {
+            vector-effect: non-scaling-stroke;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .flicker {
+            animation: flicker 5.2s linear infinite;
+        }
+
+        @keyframes flicker {
+            0%,
+            91%,
+            100% {
+                opacity: 1;
+            }
+            92% {
+                opacity: 0.52;
+            }
+            94% {
+                opacity: 0.9;
+            }
+            96% {
+                opacity: 0.62;
+            }
+        }
+
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            width: min(460px, calc(100vw - 40px));
+            pointer-events: auto;
+        }
+
+        #panel {
+            padding: 14px 14px 12px;
+            border-radius: 18px;
+            background: rgba(2, 7, 12, 0.58);
+            border: 1px solid rgba(126, 252, 255, 0.16);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.32);
+        }
+
+        #eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(126, 252, 255, 0.72);
+            margin-bottom: 8px;
+        }
+
+        #building-name {
+            font-size: 20px;
+            line-height: 1.1;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #f5ffff;
+            margin-bottom: 6px;
+        }
+
+        #building-description {
+            font-size: 12px;
+            line-height: 1.6;
+            letter-spacing: 0.08em;
+            color: rgba(223, 252, 255, 0.82);
+        }
+
+        #controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        #controls button,
+        #nav button {
+            font: inherit;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid rgba(126, 252, 255, 0.18);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(223, 252, 255, 0.78);
+            border-radius: 999px;
+            padding: 0.62rem 0.85rem;
+            letter-spacing: 0.14em;
+            transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+        }
+
+        #controls button:hover,
+        #nav button:hover {
+            transform: translateY(-1px);
+            border-color: rgba(126, 252, 255, 0.42);
+            color: #fff;
+        }
+
+        #controls button.active {
+            background: rgba(126, 252, 255, 0.14);
+            border-color: rgba(126, 252, 255, 0.46);
+            color: #fff;
+        }
+
+        #nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .nav-cluster {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #counter {
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: rgba(223, 252, 255, 0.58);
+        }
+
+        #hint {
+            margin-top: 10px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            color: rgba(223, 252, 255, 0.45);
+        }
+
+        #scanlines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.08;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(126, 252, 255, 0.06) 0,
+                rgba(126, 252, 255, 0.06) 1px,
+                transparent 1px,
+                transparent 5px
+            );
+            mix-blend-mode: screen;
+        }
+    </style>
+</head>
+<body>
+    <div id="scene">
+        <svg id="holo-svg" viewBox="0 0 1600 900" role="img" aria-label="Holographic building library">
+            <defs>
+                <linearGradient id="skyGlow" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#07111b" stop-opacity="0.72" />
+                    <stop offset="50%" stop-color="#02050a" stop-opacity="0.28" />
+                    <stop offset="100%" stop-color="#000" stop-opacity="1" />
+                </linearGradient>
+
+                <radialGradient id="haloGlow" cx="50%" cy="46%" r="32%">
+                    <stop offset="0%" stop-color="#7efcff" stop-opacity="0.1" />
+                    <stop offset="55%" stop-color="#7efcff" stop-opacity="0.04" />
+                    <stop offset="100%" stop-color="#7efcff" stop-opacity="0" />
+                </radialGradient>
+
+                <linearGradient id="frontFill" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#08131b" stop-opacity="0.95" />
+                    <stop offset="52%" stop-color="#102f3d" stop-opacity="0.88" />
+                    <stop offset="100%" stop-color="#050d13" stop-opacity="0.98" />
+                </linearGradient>
+
+                <linearGradient id="sideFill" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#071019" stop-opacity="0.95" />
+                    <stop offset="55%" stop-color="#0b2430" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#040b11" stop-opacity="0.98" />
+                </linearGradient>
+
+                <linearGradient id="roofFill" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#0d2733" stop-opacity="0.95" />
+                    <stop offset="100%" stop-color="#061118" stop-opacity="0.95" />
+                </linearGradient>
+
+                <linearGradient id="coreLight" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+                    <stop offset="34%" stop-color="#7efcff" stop-opacity="0.16" />
+                    <stop offset="50%" stop-color="#f4ffff" stop-opacity="0.6" />
+                    <stop offset="66%" stop-color="#7efcff" stop-opacity="0.14" />
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                </linearGradient>
+
+                <linearGradient id="accentLight" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#f7ffff" stop-opacity="0.92" />
+                    <stop offset="100%" stop-color="#7efcff" stop-opacity="0.08" />
+                </linearGradient>
+            </defs>
+
+            <rect width="1600" height="900" fill="url(#skyGlow)" />
+            <ellipse cx="800" cy="430" rx="380" ry="220" fill="url(#haloGlow)" />
+
+            <g id="building-root"></g>
+        </svg>
+    </div>
+
+    <div id="hud">
+        <div id="panel">
+            <div id="eyebrow">Holo Table // Building Library</div>
+            <div id="building-name">Loading</div>
+            <div id="building-description"></div>
+            <div id="controls"></div>
+            <div id="nav">
+                <div class="nav-cluster">
+                    <button id="prev-button" type="button">Prev</button>
+                    <button id="next-button" type="button">Next</button>
+                </div>
+                <div id="counter">1 / 6</div>
+            </div>
+            <div id="hint">Scroll, use arrows, or click a building tab to switch</div>
+        </div>
+    </div>
+
+    <div id="scanlines"></div>
+    <script src="building.js"></script>
+</body>
+</html>
