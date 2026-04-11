@@ -104,6 +104,7 @@ async function initVideo() {
 
         if (!nextVideo) {
             document.body.style.background = '#111';
+            console.error('No playable wallpaper videos found. Verify Wallpapers/*.mp4 files are valid and not Git LFS pointer files.');
             return;
         }
 
@@ -118,10 +119,12 @@ async function initVideo() {
     };
 
     const handleVideoError = () => {
+        console.warn(`Failed to load wallpaper video: ${currentWallpaperVideo ?? 'unknown'}`);
         wallpaperVideos = wallpaperVideos.filter((video) => video !== currentWallpaperVideo);
 
         if (!wallpaperVideos.length) {
             document.body.style.background = '#111';
+            console.error('All wallpaper videos failed to load. If files came from git, run git lfs pull and reload the extension.');
             return;
         }
 

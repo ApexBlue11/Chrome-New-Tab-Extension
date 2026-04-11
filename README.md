@@ -27,6 +27,7 @@ What it does:
 
 - Copies the extension files to %LOCALAPPDATA%\\ChromeHomeExtension
 - Keeps paths relative (portable across Windows user accounts)
+- Detects Git LFS pointer media and auto-fetches real wallpaper videos when possible
 - Opens chrome://extensions (if Chrome is available in PATH)
 
 After script finishes:
@@ -42,6 +43,11 @@ After script finishes:
 3. Enable Developer mode
 4. Click Load unpacked
 5. Select the extension root (must contain manifest.json)
+
+If this folder came from a git clone, run before loading:
+
+- git lfs pull
+- git lfs checkout
 
 ## 4) Upload / Publish to GitHub
 
@@ -132,6 +138,21 @@ Edit:
 - Keep videos inside Wallpapers/
 - Reload extension after replacing files
 
+### Video background is black
+
+This usually means the `Wallpapers/*.mp4` files are Git LFS pointers instead of real MP4 content.
+
+Fix steps:
+
+1. Run `git lfs pull`
+2. Run `git lfs checkout`
+3. Run `install-extension.bat` again
+4. Reload the extension in `chrome://extensions`
+
+Quick check:
+
+- If a wallpaper file is around ~130 bytes, it is a pointer and must be hydrated with Git LFS.
+
 ### New changes not visible
 
 - Go to chrome://extensions
@@ -140,7 +161,10 @@ Edit:
 ## 8) Updating on another Windows PC
 
 1. Copy project folder to the new machine
-2. Run install-extension.bat
-3. Load unpacked from %LOCALAPPDATA%\\ChromeHomeExtension
+2. If copied from git, install Git + Git LFS and run:
+	- git lfs pull
+	- git lfs checkout
+3. Run install-extension.bat
+4. Load unpacked from %LOCALAPPDATA%\\ChromeHomeExtension
 
 That is all needed to run the same extension on another Windows system.

@@ -16,6 +16,33 @@ function Assert-Tool($name) {
 
 Assert-Tool git
 
+function Enable-LfsForWallpapers {
+    param([string]$RootPath)
+
+    Push-Location $RootPath
+    try {
+        $hasWallpapers = Test-Path -LiteralPath (Join-Path $RootPath 'Wallpapers')
+        if (-not $hasWallpapers) {
+            return
+        }
+
+        $hasMp4 = @(Get-ChildItem -LiteralPath (Join-Path $RootPath 'Wallpapers') -File -Filter '*.mp4' -ErrorAction SilentlyContinue).Count -gt 0
+        if (-not $hasMp4) {
+            return
+        }
+
+        $null = (& git lfs version 2>$null)
+        if ($LASTEXITCODE -ne 0) {
+            throw 'This project contains wallpaper videos. Install Git LFS first, then rerun publish script.'
+        }
+
+        & git lfs install | Out-Null
+        & git lfs track 'Wallpapers/*.mp4' | Out-Null
+    } finally {
+        Pop-Location
+    }
+}
+
 $projectDir = $PSScriptRoot
 Set-Location $projectDir
 
@@ -50,6 +77,8 @@ if (-not (Test-Path -LiteralPath (Join-Path $projectDir '.gitignore'))) {
         '.vscode/'
     ) | Set-Content -Path (Join-Path $projectDir '.gitignore') -Encoding UTF8
 }
+
+Enable-LfsForWallpapers -RootPath $projectDir
 
 git add -A
 
