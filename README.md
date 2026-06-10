@@ -15,7 +15,10 @@ A Chrome new tab replacement for Windows with:
 2. Double-click it
 3. If Windows shows a SmartScreen warning, click **More info → Run anyway**
 4. A **folder picker** will open — choose where to install the extension
-5. Once done, **Chrome** and the **README** will open automatically
+5. You'll be asked about wallpaper videos:
+   - **Git is installed** → choose Git clone (gets videos) or ZIP (skip videos)
+   - **Git is not installed** → choose to open the Git download page first, or continue without videos and add your own `.mp4` files later
+6. Once done, **`HOW-TO.txt`** opens in Notepad with activation steps, and **Chrome** opens to the extensions page
 
 **Then in Chrome:**
 1. Turn on **Developer mode** (toggle in the top-right of the extensions page)
@@ -84,8 +87,9 @@ Edit `manifest.json`:
 <details>
 <summary><strong>Change wallpaper videos</strong></summary>
 
-1. Add or remove `.mp4` files in `Wallpapers/`
-2. If the fallback list in `script.js` is hardcoded, update `FALLBACK_WALLPAPER_VIDEOS` to match
+Just drop any `.mp4` files into the `Wallpapers/` folder — they'll be picked up automatically. No config needed.
+
+To remove a wallpaper, delete the `.mp4` file and reload the extension.
 </details>
 
 <details>
@@ -126,16 +130,20 @@ Edit `style.css`, targeting:
 <details>
 <summary><strong>Video backgrounds are black</strong></summary>
 
-This means the `.mp4` files in `Wallpapers/` are Git LFS pointers (~130 bytes each) instead of real video files.
+This happens when the `.mp4` files in `Wallpapers/` are Git LFS pointers (~130 bytes) instead of real video files. This only affects ZIP downloads — git clone handles it automatically if Git LFS is installed.
 
-Fix:
+**Fix if you have Git installed:**
 ```
+git lfs install
 git lfs pull
 git lfs checkout
 ```
-Then re-run `install-extension.bat` and reload the extension in Chrome.
+Then reload the extension in Chrome.
 
-To verify: if any `.mp4` file is around 130 bytes, it's a pointer, not a real video.
+**Fix if you don't have Git:**
+Install [Git](https://git-scm.com/) and [Git LFS](https://git-lfs.com/), then re-run `install-chrome-home-extension.bat` and choose the **Git clone** option.
+
+**Quick check:** if any `.mp4` in `Wallpapers/` is around 130 bytes, it's a pointer, not a real video.
 </details>
 
 <details>

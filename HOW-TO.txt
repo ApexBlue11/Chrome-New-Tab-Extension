@@ -1,0 +1,95 @@
+================================================
+  CHROME HOME EXTENSION — HOW TO ENABLE IT
+================================================
+
+The extension files have been installed on your PC.
+Follow the steps below to activate it in Chrome.
+
+
+STEP 1 — Open Chrome Extensions Page
+--------------------------------------
+A tab should have opened automatically at:
+  chrome://extensions
+
+If it didn't, open Chrome and type that address into
+the address bar manually.
+
+
+STEP 2 — Turn On Developer Mode
+---------------------------------
+In the top-right corner of the extensions page,
+toggle ON the switch labelled "Developer mode".
+
+
+STEP 3 — Load the Extension
+-----------------------------
+Click the "Load unpacked" button that appears.
+
+A folder picker will open. Navigate to and select
+the folder where you installed the extension.
+(The same folder you chose during installation.)
+
+The extension is now active. Open a new tab to see it.
+
+
+================================================
+  ADDING YOUR OWN WALLPAPER VIDEOS
+================================================
+
+The extension uses .mp4 video files as backgrounds.
+They rotate randomly each time you open a new tab.
+
+To add your own:
+  1. Find the "Wallpapers" folder inside your
+     installation folder
+  2. Drop any .mp4 files into it
+  3. Go to chrome://extensions and click the
+     Reload button on this extension
+  4. Open a new tab — your videos will now appear
+
+To remove a wallpaper, just delete the .mp4 file
+and reload the extension.
+
+
+================================================
+  VIDEO BACKGROUNDS APPEARING BLACK?
+================================================
+
+This means the wallpaper videos weren't downloaded
+properly. This happens when Git or Git LFS is not
+installed on your PC.
+
+To fix it:
+  1. Install Git from:       https://git-scm.com/download/win
+  2. Install Git LFS from:   https://git-lfs.com
+  3. Re-run install-chrome-home-extension.bat
+  4. When asked, choose "Git clone"
+
+
+================================================
+  TROUBLESHOOTING
+================================================
+
+Extension won't appear after loading:
+  - Make sure you selected the correct folder
+    (it must contain a file called manifest.json)
+  - Make sure Developer mode is ON
+  - Check for error messages on chrome://extensions
+
+Changes not showing up:
+  - Go to chrome://extensions
+  - Click the Reload button on this extension
+
+Extension disappeared after Chrome update:
+  - Go to chrome://extensions
+  - Click Load unpacked and select your folder again
+
+
+================================================
+  MORE INFO
+================================================
+
+Full documentation and source code:
+  https://github.com/ApexBlue11/chrome-home-extension
+
+================================================
