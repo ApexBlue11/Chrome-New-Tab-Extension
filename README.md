@@ -1,170 +1,194 @@
-# Chrome Home Extension (Windows Ready)
+# Chrome Home Extension
 
-This project is a Chrome New Tab extension with:
+A Chrome new tab replacement for Windows with:
+- 🎬 Random video wallpapers
+- 🕐 Live clock & date UI
+- 🔷 HOLO TABLE — an embedded 3D scene view
 
-- Random video wallpapers
-- Live clock/date UI
-- A HOLO TABLE view in an embedded scene
+---
 
-The setup below is designed to work consistently on Windows systems.
+## ⚡ Quick Install (Recommended)
 
-## 1) Recommended Folder Location on Windows
+> Just want it working? Do this.
 
-Use the installer script to place the extension in a stable location:
+1. Download **`install-chrome-home-extension.bat`** from this repo
+2. Double-click it
+3. If Windows shows a SmartScreen warning, click **More info → Run anyway**
+4. A **folder picker** will open — choose where to install the extension
+5. Once done, **Chrome** and the **README** will open automatically
 
-- %LOCALAPPDATA%\\ChromeHomeExtension
+**Then in Chrome:**
+1. Turn on **Developer mode** (toggle in the top-right of the extensions page)
+2. Click **Load unpacked**
+3. Select the folder you chose in step 4 above
 
-This avoids issues caused by moving/deleting the original folder.
+That's it. New tab should now show the extension.
 
-## 2) Quick Install (Windows)
+---
 
-From this project folder, run either:
+## 🛠 Manual Install (Alternative)
 
-- install-extension.bat
-- or: powershell -ExecutionPolicy Bypass -File .\\install-extension.ps1
+If you'd rather do it yourself or already have the repo cloned:
 
-What it does:
+**Option A — Use the install script from the repo folder:**
+```
+install-extension.bat
+```
+or
+```
+powershell -ExecutionPolicy Bypass -File .\install-extension.ps1
+```
 
-- Copies the extension files to %LOCALAPPDATA%\\ChromeHomeExtension
-- Keeps paths relative (portable across Windows user accounts)
-- Detects Git LFS pointer media and auto-fetches real wallpaper videos when possible
-- Opens chrome://extensions (if Chrome is available in PATH)
+This copies everything to `%LOCALAPPDATA%\ChromeHomeExtension`, which is a stable path that won't break if you move the original folder.
 
-After script finishes:
+**Option B — Fully manual:**
+1. Put the project folder anywhere on your PC
+2. Open `chrome://extensions`
+3. Enable **Developer mode**
+4. Click **Load unpacked**
+5. Select the folder (it must contain `manifest.json`)
 
-1. Turn on Developer mode in Chrome extensions page
-2. Click Load unpacked
-3. Select: %LOCALAPPDATA%\\ChromeHomeExtension
+> **If you cloned via git:** run `git lfs pull` and `git lfs checkout` before loading, otherwise video wallpapers will appear as black backgrounds.
 
-## 3) Manual Install (if you prefer)
+---
 
-1. Put the project folder anywhere
-2. Open chrome://extensions
-3. Enable Developer mode
-4. Click Load unpacked
-5. Select the extension root (must contain manifest.json)
+## 📁 Project Structure
 
-If this folder came from a git clone, run before loading:
+```
+manifest.json              — Chrome extension config
+index.html                 — New tab page shell
+script.js                  — Clock, wallpaper rotation, mode switching
+style.css                  — UI styling
+Wallpapers/                — Background video files (.mp4)
+fonts/                     — Custom fonts
+holo-prototype/
+  building.html            — HOLO TABLE layout & theme
+  building.js              — HOLO TABLE geometry, animation, controls
+```
 
-- git lfs pull
-- git lfs checkout
+---
 
-## 4) Upload / Publish to GitHub
+## ✏️ Customisation
 
-### Option A: One command with script
+<details>
+<summary><strong>Change extension name or version</strong></summary>
 
-If you already created a GitHub repository:
+Edit `manifest.json`:
+```json
+"name": "Your Extension Name",
+"version": "1.0",
+"description": "Your description"
+```
+</details>
 
-- publish-to-github.bat https://github.com/<your-user>/<your-repo>.git
+<details>
+<summary><strong>Change wallpaper videos</strong></summary>
 
-or:
+1. Add or remove `.mp4` files in `Wallpapers/`
+2. If the fallback list in `script.js` is hardcoded, update `FALLBACK_WALLPAPER_VIDEOS` to match
+</details>
 
-- powershell -ExecutionPolicy Bypass -File .\\publish-to-github.ps1 -RepositoryUrl https://github.com/<your-user>/<your-repo>.git
+<details>
+<summary><strong>Change the font</strong></summary>
 
-The script will:
+1. Drop your font file into `fonts/`
+2. Update the `@font-face` `src` path in `style.css`
+</details>
 
-- Initialize git if needed
-- Create/switch to main branch
-- Add .gitignore (if missing)
-- Commit all files
-- Add/update origin
-- Push to GitHub
+<details>
+<summary><strong>Change clock/date appearance</strong></summary>
 
-### Option B: Let GitHub CLI create repo
+Edit `style.css`, targeting:
+- `#time`
+- `#date-row`
+- `.clock-container`
+</details>
 
-If gh (GitHub CLI) is installed and authenticated, run:
+<details>
+<summary><strong>Change HOLO TABLE visuals</strong></summary>
 
-- publish-to-github.bat
+- Layout and theme tokens → `holo-prototype/building.html`
+- Geometry, animation, controls → `holo-prototype/building.js`
+</details>
 
-It will create a repo from this folder and push automatically.
+---
 
-## 5) Project Structure
+## ❗ Troubleshooting
 
-- manifest.json: Chrome extension config
-- index.html: New tab page shell
-- script.js: New tab behavior (clock, wallpaper rotation, mode switching)
-- style.css: UI styling
-- Wallpapers/: Background videos (.mp4)
-- fonts/: Custom font files
-- holo-prototype/building.html: HOLO TABLE page
-- holo-prototype/building.js: HOLO TABLE rendering/interaction
+<details>
+<summary><strong>Extension won't load</strong></summary>
 
-## 6) How to Customize
+- Make sure the selected folder actually contains `manifest.json`
+- Confirm Developer mode is enabled in `chrome://extensions`
+- Check the error details shown on the extensions page
+</details>
 
-### Change extension name/version
+<details>
+<summary><strong>Video backgrounds are black</strong></summary>
 
-Edit manifest.json:
+This means the `.mp4` files in `Wallpapers/` are Git LFS pointers (~130 bytes each) instead of real video files.
 
-- name
-- version
-- description
+Fix:
+```
+git lfs pull
+git lfs checkout
+```
+Then re-run `install-extension.bat` and reload the extension in Chrome.
 
-### Change wallpaper videos
+To verify: if any `.mp4` file is around 130 bytes, it's a pointer, not a real video.
+</details>
 
-1. Add or remove .mp4 files in Wallpapers/
-2. If needed, update fallback list in script.js (FALLBACK_WALLPAPER_VIDEOS)
+<details>
+<summary><strong>Videos exist but won't play</strong></summary>
 
-### Change font
+- Confirm files are valid `.mp4` format
+- Keep them inside the `Wallpapers/` folder
+- Reload the extension after replacing any files
+</details>
 
-1. Place your font in fonts/
-2. Update style.css @font-face src path
+<details>
+<summary><strong>Changes I made aren't showing up</strong></summary>
 
-### Change clock/date appearance
+Go to `chrome://extensions` and click the **Reload** button on this extension.
+</details>
 
-Edit style.css:
+---
 
-- #time
-- #date-row
-- .clock-container
+## 🔄 Installing on Another Windows PC
 
-### Change HOLO TABLE visuals
+1. Copy the project folder to the new machine
+2. If it came from a git clone, install [Git](https://git-scm.com/) + [Git LFS](https://git-lfs.com/) first, then run:
+   ```
+   git lfs pull
+   git lfs checkout
+   ```
+3. Run `install-extension.bat`
+4. Load unpacked from `%LOCALAPPDATA%\ChromeHomeExtension`
 
-Edit:
+---
 
-- holo-prototype/building.html (layout/theme tokens)
-- holo-prototype/building.js (geometry, animation, controls)
+## 🚀 Publishing to GitHub
 
-## 7) Troubleshooting
+<details>
+<summary><strong>Option A — Script with existing repo URL</strong></summary>
 
-### Extension does not load
+```
+publish-to-github.bat https://github.com/<you>/<repo>.git
+```
+or
+```
+powershell -ExecutionPolicy Bypass -File .\publish-to-github.ps1 -RepositoryUrl https://github.com/<you>/<repo>.git
+```
 
-- Make sure selected folder contains manifest.json
-- Confirm Developer mode is enabled
-- Open chrome://extensions and check error details
+The script handles: git init, branch setup, `.gitignore`, commit, and push.
+</details>
 
-### Videos not playing
+<details>
+<summary><strong>Option B — GitHub CLI (auto-creates repo)</strong></summary>
 
-- Ensure files are valid .mp4
-- Keep videos inside Wallpapers/
-- Reload extension after replacing files
-
-### Video background is black
-
-This usually means the `Wallpapers/*.mp4` files are Git LFS pointers instead of real MP4 content.
-
-Fix steps:
-
-1. Run `git lfs pull`
-2. Run `git lfs checkout`
-3. Run `install-extension.bat` again
-4. Reload the extension in `chrome://extensions`
-
-Quick check:
-
-- If a wallpaper file is around ~130 bytes, it is a pointer and must be hydrated with Git LFS.
-
-### New changes not visible
-
-- Go to chrome://extensions
-- Click the Reload button on this extension
-
-## 8) Updating on another Windows PC
-
-1. Copy project folder to the new machine
-2. If copied from git, install Git + Git LFS and run:
-	- git lfs pull
-	- git lfs checkout
-3. Run install-extension.bat
-4. Load unpacked from %LOCALAPPDATA%\\ChromeHomeExtension
-
-That is all needed to run the same extension on another Windows system.
+If you have `gh` installed and authenticated:
+```
+publish-to-github.bat
+```
+It will create the repo and push automatically.
+</details>
