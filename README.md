@@ -3,7 +3,7 @@
 > **A Chrome new tab replacement for Windows featuring rotating video wallpapers and a live clock/date UI.**
 
 [![Download ZIP](https://img.shields.io/badge/Download-ZIP-orange?style=for-the-badge&logo=github)](https://github.com/ApexBlue11/Chrome-New-Tab-Extension/archive/refs/heads/main.zip)
-[![Download Installer](https://img.shields.io/badge/Download-Installer.bat-blue?style=for-the-badge&logo=windows)](https://github.com/ApexBlue11/Chrome-New-Tab-Extension/raw/main/install.bat)
+[![Download Installer](https://img.shields.io/badge/Download-Installer.bat-blue?style=for-the-badge&logo=windows)](https://github.com/ApexBlue11/Chrome-New-Tab-Extension/raw/main/install.bat?download=)
 
 ## ⚡ Windows Easy Install (Anti-Virus Safe)
 

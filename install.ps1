@@ -86,7 +86,6 @@ Load it in Chrome:
 
   Start-Process notepad.exe $howToPath
   try {
-    Start-Process 'chrome.exe' "--load-extension=`"$installDir`""
     Start-Process 'chrome.exe' 'chrome://extensions'
   } catch {
     Write-Warning 'Could not launch Chrome automatically. Open chrome://extensions manually.'
