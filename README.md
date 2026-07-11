@@ -3,7 +3,7 @@
 A Chrome new tab replacement for Windows with:
 - 🎬 Random video wallpapers
 - 🕐 Live clock & date UI
-- 🔷 HOLO TABLE — an embedded 3D scene view
+
 
 ---
 
@@ -64,9 +64,7 @@ script.js                  — Clock, wallpaper rotation, mode switching
 style.css                  — UI styling
 Wallpapers/                — Background video files (.mp4)
 fonts/                     — Custom fonts
-holo-prototype/
-  building.html            — HOLO TABLE layout & theme
-  building.js              — HOLO TABLE geometry, animation, controls
+
 ```
 
 ---
@@ -108,12 +106,7 @@ Edit `style.css`, targeting:
 - `.clock-container`
 </details>
 
-<details>
-<summary><strong>Change HOLO TABLE visuals</strong></summary>
 
-- Layout and theme tokens → `holo-prototype/building.html`
-- Geometry, animation, controls → `holo-prototype/building.js`
-</details>
 
 ---
 

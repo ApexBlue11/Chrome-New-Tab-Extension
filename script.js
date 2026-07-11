@@ -80,20 +80,7 @@ function getWallpaperVideosFromPackage() {
     });
 }
 
-function setMode(mode) {
-    const tabButton = document.getElementById('mode-tab');
-    const holoButton = document.getElementById('mode-holo');
-    const holoView = document.getElementById('holo-view');
-    const content = document.getElementById('content');
 
-    const isHolo = mode === 'holo';
-
-    tabButton.classList.toggle('active', !isHolo);
-    holoButton.classList.toggle('active', isHolo);
-    holoView.classList.toggle('hidden', !isHolo);
-    holoView.setAttribute('aria-hidden', String(!isHolo));
-    content.classList.toggle('hidden', isHolo);
-}
 
 async function initVideo() {
     const videoElement = document.getElementById('bg-video');
@@ -163,7 +150,4 @@ void initVideo();
 updateClock();
 setInterval(updateClock, 1000);
 
-document.getElementById('mode-tab').addEventListener('click', () => setMode('tab'));
-document.getElementById('mode-holo').addEventListener('click', () => setMode('holo'));
 
-setMode('tab');
