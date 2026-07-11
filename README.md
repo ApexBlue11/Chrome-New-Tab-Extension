@@ -1,31 +1,17 @@
-# Chrome Home Extension
+# Chrome New Tab Extension
 
-A Chrome new tab replacement for Windows with:
-- 🎬 Random video wallpapers
-- 🕐 Live clock & date UI
+> **A Chrome new tab replacement for Windows featuring rotating video wallpapers and a live clock/date UI.**
 
+[![Download ZIP](https://img.shields.io/badge/Download-ZIP-orange?style=for-the-badge&logo=github)](https://github.com/ApexBlue11/Chrome-New-Tab-Extension/archive/refs/heads/main.zip)
+[![Download Installer](https://img.shields.io/badge/Download-Installer.bat-blue?style=for-the-badge&logo=windows)](https://github.com/ApexBlue11/Chrome-New-Tab-Extension/raw/main/install.bat)
 
----
+## ⚡ Windows Easy Install (Anti-Virus Safe)
 
-## ⚡ Quick Install (Recommended)
+To install without downloading any executables or triggering Antivirus/SmartScreen blocks, open **PowerShell** and run this command:
 
-> Just want it working? Do this.
-
-1. Download **`install-chrome-home-extension.bat`** from this repo
-2. Double-click it
-3. If Windows shows a SmartScreen warning, click **More info → Run anyway**
-4. A **folder picker** will open — choose where to install the extension
-5. You'll be asked about wallpaper videos:
-   - **Git is installed** → choose Git clone (gets videos) or ZIP (skip videos)
-   - **Git is not installed** → choose to open the Git download page first, or continue without videos and add your own `.mp4` files later
-6. Once done, **`HOW-TO.txt`** opens in Notepad with activation steps, and **Chrome** opens to the extensions page
-
-**Then in Chrome:**
-1. Turn on **Developer mode** (toggle in the top-right of the extensions page)
-2. Click **Load unpacked**
-3. Select the folder you chose in step 4 above
-
-That's it. New tab should now show the extension.
+```powershell
+irm -useb https://raw.githubusercontent.com/ApexBlue11/Chrome-New-Tab-Extension/main/install.ps1 | iex
+```
 
 ---
 
